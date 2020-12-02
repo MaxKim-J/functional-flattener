@@ -1,2 +1,1 @@
-declare const root: () => void;
-export default root;
+export * from './flattener';

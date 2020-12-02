@@ -1,0 +1,22 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "airbnb-base",
+    "plugin:@typescript-eslint/eslint-recommended"
+  ],
+  "rules": {
+    "semi": ["error", "never"],
+    "@typescript-eslint/no-unused-vars": "off",
+    "class-methods-use-this": "off",
+    "import/no-named-as-default-member": "off",
+    "import/no-unused-vars": "off",
+    "import/no-unresolved": "off",
+    "no-unused-vars": "off",
+    "max-classes-per-file": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/extensions": "off",
+    "no-useless-constructor": "off",
+    "no-empty-function": "off"
+  }
+}

@@ -5,6 +5,7 @@
   "repository": "https://github.com/MaxKim-J/functional-flattener.git",
   "author": "Max Jonghyuk Kim",
   "license": "MIT",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -23,6 +24,10 @@
   },
   "dependencies": {
     "@types/jest": "^26.0.16",
-    "eslint-plugin-import": "^2.22.1"
+    "@types/lodash.camelcase": "^4.3.6",
+    "@types/lodash.clonedeep": "^4.5.6",
+    "eslint-plugin-import": "^2.22.1",
+    "lodash.camelcase": "^4.3.0",
+    "lodash.clonedeep": "^4.5.0"
   }
 }

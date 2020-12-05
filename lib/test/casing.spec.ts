@@ -17,7 +17,7 @@ const mockData = {
 
 describe('FlattenTarget.casing() method should', () => {
   it('return a modified object which all keys of properties are camelCase', (done) => {
-    const result = flattener(mockData).casing().returnResult()
+    const result = flattener(mockData).caseToCamel().returnResult()
     expect(result).toEqual({
       userId: 12424,
       userName: 'max',

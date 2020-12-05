@@ -9,7 +9,7 @@ class FlattenTarget {
     return cloneDeep(this.target)
   }
 
-  casing():FlattenTarget {
+  caseToCamel():FlattenTarget {
     const cloneTarget = this.clone()
     const result = caseTargetToCamelCase({}, cloneTarget)
     return new FlattenTarget(result)

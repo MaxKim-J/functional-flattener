@@ -4,7 +4,11 @@ import cloneDeep from 'lodash.clonedeep'
 
 const helper = () => 'helper'
 
-export const caseTargetToCamelCase = (target:any) => {
+type targetObject = {
+  [key: string]:any
+}
+
+export const caseTargetToCamelCase = (target:targetObject) => {
   const targetKeys = Object.keys(target)
   targetKeys.forEach((key) => {
     const value = target[key]

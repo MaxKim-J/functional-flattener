@@ -5,14 +5,18 @@ import { Target, Plan } from './types'
 class FlattenTarget {
   constructor(private target:Target) {}
 
+  private clone() {
+    return cloneDeep(this.target)
+  }
+
   casing():FlattenTarget {
-    const cloneTarget = cloneDeep(this.target)
+    const cloneTarget = this.clone()
     const result = caseTargetToCamelCase({}, cloneTarget)
     return new FlattenTarget(result)
   }
 
   process(processPlan:Plan):FlattenTarget {
-    const cloneTarget = cloneDeep(this.target)
+    const cloneTarget = this.clone()
     const resolvedPlan = processPlan(cloneTarget)
     const result = applyProcessPlanToTarget({}, cloneTarget, resolvedPlan)
     return new FlattenTarget(result)
@@ -27,7 +31,7 @@ class FlattenTarget {
   }
 
   returnResult() {
-    return cloneDeep(this.target)
+    return this.clone()
   }
 }
 export default FlattenTarget

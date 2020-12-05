@@ -1,8 +1,9 @@
 import cloneDeep from 'lodash.clonedeep'
 import { caseTargetToCamelCase } from './utils'
+import { Target } from './types'
 
 class FlattenTarget {
-  constructor(private target:object) {}
+  constructor(private target:Target) {}
 
   casing():FlattenTarget {
     const cloneTarget = cloneDeep(this.target)
@@ -23,7 +24,7 @@ class FlattenTarget {
   }
 
   returnResult() {
-    return this.initialTarget
+    return this.target
   }
 }
 export default FlattenTarget

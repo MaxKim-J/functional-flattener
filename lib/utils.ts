@@ -1,14 +1,10 @@
 /* eslint-disable no-param-reassign */
 import camelCase from 'lodash.camelcase'
-import cloneDeep from 'lodash.clonedeep'
+import { Target } from './types'
 
 const helper = () => 'helper'
 
-type targetObject = {
-  [key: string]:any
-}
-
-export const caseTargetToCamelCase = (target:targetObject) => {
+export const caseTargetToCamelCase = (target:Target):Target => {
   const targetKeys = Object.keys(target)
   targetKeys.forEach((key) => {
     const value = target[key]
@@ -23,7 +19,7 @@ export const caseTargetToCamelCase = (target:targetObject) => {
       caseTargetToCamelCase(value)
     }
   })
-  return cloneDeep(target)
+  return target
 }
 
 export default helper

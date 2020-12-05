@@ -4,3 +4,5 @@ export interface CasingOption {
 export interface Target {
   [key: string]:any
 }
+
+export type Plan = (target:Target) => Target

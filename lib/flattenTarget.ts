@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash.clonedeep'
-import { caseTargetToCamelCase } from './utils'
-import { Target } from './types'
+import { caseTargetToCamelCase, applyProcessPlanToTarget } from './utils'
+import { Target, Plan } from './types'
 
 class FlattenTarget {
   constructor(private target:Target) {}
@@ -11,8 +11,11 @@ class FlattenTarget {
     return new FlattenTarget(result)
   }
 
-  process() {
-
+  process(processPlan:Plan):FlattenTarget {
+    const cloneTarget = cloneDeep(this.target)
+    const resolvedPlan = processPlan(cloneTarget)
+    const result = applyProcessPlanToTarget({}, cloneTarget, resolvedPlan)
+    return new FlattenTarget(result)
   }
 
   generate() {

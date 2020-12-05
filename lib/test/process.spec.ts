@@ -28,7 +28,7 @@ const mockData = {
 }
 
 const processPlan = (target:Target) => ({
-  userId: (id:number) => id + 10000,
+  userId: 1,
   userAge: (age:number) => `${age} years old`,
   userProfile: {
     userProfileText: (text:string) => `Hello! My name is ${target.userName}. ${text}`,
@@ -42,7 +42,7 @@ describe('FlattenTarget.process() method should', () => {
   it('return a modified object according to process plan parameter.', (done) => {
     const result = flattener(mockData).casing().process(processPlan).returnResult()
     expect(result).toEqual({
-      userId: 22424,
+      userId: 1,
       userName: 'max',
       userAge: '25 years old',
       userProfile: {
@@ -55,13 +55,6 @@ describe('FlattenTarget.process() method should', () => {
         ],
       },
     })
-    done()
-  })
-
-  it('return an error if particular key does not exist in process plan parameter.', (done) => {
-    expect(() => {
-      const result = flattener(mockData).casing().process(processPlan).returnResult()
-    }).toThrow()
     done()
   })
 })

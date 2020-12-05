@@ -22,4 +22,18 @@ export const caseTargetToCamelCase = (target:Target):Target => {
   return target
 }
 
+export const applyProcessPlanToTarget = (result:Target, target:Target, plan:Target):Target => {
+  const targetKeys = Object.keys(target)
+  targetKeys.forEach((key) => {
+    if (typeof plan[key] === 'function') {
+      result[key] = plan[key](target[key])
+    } else if (typeof plan[key] === 'object' && !Array.isArray(plan[key])) {
+      result[key] = applyProcessPlanToTarget({}, target[key], plan[key])
+    } else {
+      result[key] = plan[key] || target[key]
+    }
+  })
+  return result
+}
+
 export default helper

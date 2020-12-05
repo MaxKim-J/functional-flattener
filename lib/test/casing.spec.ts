@@ -15,8 +15,8 @@ const mockData = {
   },
 }
 
-describe('FlattenTarget.Casing() method should', () => {
-  it('return recursively modified object which all keys of properties are camelCase', (done) => {
+describe('FlattenTarget.casing() method should', () => {
+  it('return a modified object which all keys of properties are camelCase', (done) => {
     const result = flattener(mockData).casing().returnResult()
     expect(result).toEqual({
       userId: 12424,

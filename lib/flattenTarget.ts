@@ -24,7 +24,7 @@ class FlattenTarget {
   }
 
   returnResult() {
-    return this.target
+    return cloneDeep(this.target)
   }
 }
 export default FlattenTarget

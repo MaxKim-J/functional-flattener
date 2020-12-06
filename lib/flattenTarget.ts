@@ -29,8 +29,10 @@ class FlattenTarget {
     return new FlattenTarget(result)
   }
 
-  extract() {
-
+  extract(extractPlan:string[]):FlattenTarget {
+    const cloneTarget = this.clone()
+    const result = applyExtractPlanToTarget(cloneTarget, extractPlan)
+    return new FlattenTarget(result)
   }
 
   returnResult() {

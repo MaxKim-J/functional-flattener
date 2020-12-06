@@ -22,11 +22,11 @@ class FlattenTarget {
     return new FlattenTarget(result)
   }
 
-  generate() {
+  augment() {
 
   }
 
-  separate() {
+  extract() {
 
   }
 

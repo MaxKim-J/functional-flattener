@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash.clonedeep'
-import { caseTargetToCamelCase, applyProcessPlanToTarget } from './utils'
+import { caseTargetToCamelCase, applyProcessPlanToTarget, applyAugmentPlanToTarget } from './utils'
 import { Target, Plan } from './types'
 
 class FlattenTarget {

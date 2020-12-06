@@ -34,4 +34,19 @@ export const applyProcessPlanToTarget = (result:Target, target:Target, plan:Targ
   return result
 }
 
+export const applyAugmentPlanToTarget = (target:Target, plan:Target):Target => {
+  const planKeys = Object.keys(plan)
+  planKeys.forEach((key) => {
+    if (typeof plan[key] === 'function') {
+      throw Error('Augment plan object should not include function')
+    }
+    if (Object.prototype.hasOwnProperty.call(target, key)) {
+      target[key] = applyAugmentPlanToTarget(target[key], plan[key])
+    } else {
+      target[key] = plan[key]
+    }
+  })
+  return target
+}
+
 export default helper

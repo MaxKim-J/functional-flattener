@@ -32,7 +32,17 @@ const augmentPlan = (target:Target) => ({
   isRecentSignUser: target.userId > 10000,
   isUserAdult: target.userAge > 19,
   userProfile: {
-    userFriendsFavoriteAnimals: target.userFriends.map(
+    userFriendsFavoriteAnimals: target.userProfile.userFriends.map(
+      (friend:Friend) => friend.favoriteAnimal.animalName,
+    ),
+  },
+})
+
+const functionIncludeAugmentPlan = (target:Target) => ({
+  isRecentSignUser: target.userId > 10000,
+  isUserAdult: target.userAge > 19,
+  userProfile: {
+    userFriendsFavoriteAnimals: target.userProfile.userFriends.map(
       (friend:Friend) => friend.favoriteAnimal.animalName,
     ),
     userFriends: (friend:Friend) => {
@@ -49,37 +59,39 @@ describe('FlattenTarget.augment() method should', () => {
   it('return a augmented object according to augment plan parameter.', (done) => {
     const result = flattener(mockData).augment(augmentPlan).returnResult()
     expect(result).toEqual({
-      userId: 1,
+      userId: 12424,
       userName: 'max',
-      userAge: '25 years old',
+      userAge: 25,
       isRecentSignUser: true,
       isUserAdult: true,
       userProfile: {
-        userProfileText: 'Hello! My name is max. I Love Zebra',
+        userProfileText: 'I Love Zebra',
         userFavoriteAnimal: { id: 3, animalName: 'vulture' },
         userFriendsFavoriteAnimals: ['tiger', 'lion', 'monkey'],
         userFriends: [
           {
             id: 12324,
-            name: 'julie the tiger',
+            name: 'julie',
             favoriteAnimal: { id: 0, animalName: 'tiger' },
-            isSameFavoriteAnimal: false,
           },
           {
             id: 11424,
-            name: 'michael the lion',
+            name: 'michael',
             favoriteAnimal: { id: 1, animalName: 'lion' },
-            isSameFavoriteAnimal: false,
           },
           {
             id: 18924,
-            name: 'shawn the monkey',
+            name: 'shawn',
             favoriteAnimal: { id: 2, animalName: 'monkey' },
-            isSameFavoriteAnimal: false,
           },
         ],
       },
     })
+    done()
+  })
+
+  it('occur an error if plan object include function.', (done) => {
+    expect(() => { flattener(mockData).augment(functionIncludeAugmentPlan).returnResult() }).toThrowError(/should not include function/)
     done()
   })
 })

@@ -22,8 +22,11 @@ class FlattenTarget {
     return new FlattenTarget(result)
   }
 
-  augment() {
-
+  augment(augmentPlan:Plan):FlattenTarget {
+    const cloneTarget = this.clone()
+    const resolvedPlan = augmentPlan(cloneTarget)
+    const result = applyAugmentPlanToTarget(cloneTarget, resolvedPlan)
+    return new FlattenTarget(result)
   }
 
   extract() {

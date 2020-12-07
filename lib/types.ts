@@ -1,5 +1,5 @@
 export interface CasingOption {
-  to: 'pascal' | 'camel'
+  to: 'snake' | 'camel'
 }
 export interface Target {
   [key: string]:any

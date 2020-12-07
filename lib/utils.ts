@@ -4,15 +4,19 @@ import { Target } from './types'
 
 const helper = () => 'helper'
 
-export const caseTargetToCamelCase = (result:Target, target:Target):Target => {
+export const caseTargetWithCasingFunction = (
+  result:Target,
+  target:Target,
+  casingFunction:(arg:string) => string,
+):Target => {
   const targetKeys = Object.keys(target)
   targetKeys.forEach((key) => {
     const keyParseToNumber = parseInt(key, 10)
-    const newKey = Number.isNaN(keyParseToNumber) ? camelCase(key) : key
+    const newKey = Number.isNaN(keyParseToNumber) ? casingFunction(key) : key
     const value = target[key]
     if (typeof value === 'object') {
       const childPropertyResult = Array.isArray(value) ? [] : {}
-      result[newKey] = caseTargetToCamelCase(childPropertyResult, value)
+      result[newKey] = caseTargetWithCasingFunction(childPropertyResult, value, casingFunction)
     } else {
       result[newKey] = value
     }

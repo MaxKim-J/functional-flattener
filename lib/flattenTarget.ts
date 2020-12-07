@@ -1,11 +1,14 @@
 import cloneDeep from 'lodash.clonedeep'
+import camelCase from 'lodash.camelcase'
+import snakeCase from 'lodash/snakecase'
+
 import {
-  caseTargetToCamelCase,
+  caseTargetWithCasingFunction,
   applyProcessPlanToTarget,
   applyAugmentPlanToTarget,
   applyExtractPlanToTarget,
 } from './utils'
-import { Target, Plan } from './types'
+import { Target, Plan, CasingOption } from './types'
 
 class FlattenTarget {
   constructor(private target:Target) {}
@@ -14,9 +17,18 @@ class FlattenTarget {
     return cloneDeep(this.target)
   }
 
-  caseToCamel():FlattenTarget {
+  case(option:CasingOption):FlattenTarget {
     const cloneTarget = this.clone()
-    const result = caseTargetToCamelCase({}, cloneTarget)
+    let casingFunction
+    switch (option.to) {
+      default:
+      case 'camel':
+        casingFunction = camelCase
+        break
+      case 'snake':
+        casingFunction = snakeCase
+    }
+    const result = caseTargetWithCasingFunction({}, cloneTarget, casingFunction)
     return new FlattenTarget(result)
   }
 

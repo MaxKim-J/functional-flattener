@@ -57,6 +57,9 @@ export const applyExtractPlanToTarget = (target:Target, extractPlan:string[]) =>
     referenceArr.forEach((key) => {
       extractTargetProperty = extractTargetProperty[key]
     })
+    if (!extractTargetProperty[`${lastReference}`]) {
+      throw Error(`${extractKey} does not exist in target`)
+    }
     delete extractTargetProperty[`${lastReference}`]
   })
   return target

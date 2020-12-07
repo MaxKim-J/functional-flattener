@@ -1,16 +1,4 @@
 import flattener from '../../lib'
-import { Target } from '../types'
-
-interface Animal {
-  id:number,
-  animalName: string
-}
-
-interface Friend {
-  id: number,
-  name: string,
-  favoriteAnimal: Animal
-}
 
 // Premise that target object already camel-cased
 const mockData = {
@@ -35,6 +23,12 @@ const mockData = {
 const extractPlan = [
   'userId',
   'userProfile.userProfileText',
+  'userProfile.userProfileImage.mobile',
+]
+
+const wrongExtractPlan = [
+  'userId',
+  'userProfile.userProf',
   'userProfile.userProfileImage.mobile',
 ]
 
@@ -68,6 +62,15 @@ describe('FlattenTarget.extract() method should', () => {
         ],
       },
     })
+    done()
+  })
+
+  it('occur an error if key in plan not exist in target.', (done) => {
+    expect(() => {
+      flattener(mockData)
+        .extract(wrongExtractPlan)
+        .returnResult()
+    }).toThrowError(/does not exist/)
     done()
   })
 })

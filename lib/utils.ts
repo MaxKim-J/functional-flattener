@@ -49,4 +49,17 @@ export const applyAugmentPlanToTarget = (target:Target, plan:Target):Target => {
   return target
 }
 
+export const applyExtractPlanToTarget = (target:Target, extractPlan:string[]) => {
+  extractPlan.forEach((extractKey) => {
+    const referenceArr = extractKey.split('.')
+    const lastReference = referenceArr.pop()
+    let extractTargetProperty:Target = target
+    referenceArr.forEach((key) => {
+      extractTargetProperty = extractTargetProperty[key]
+    })
+    delete extractTargetProperty[`${lastReference}`]
+  })
+  return target
+}
+
 export default helper

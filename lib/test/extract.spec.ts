@@ -38,15 +38,12 @@ const extractPlan = [
   'userProfile.userProfileImage.mobile',
 ]
 
-describe('FlattenTarget.augment() method should', () => {
-  it('return a augmented object according to augment plan parameter.', (done) => {
+describe('FlattenTarget.extract() method should', () => {
+  it('return a modified object that extract particular properties according to extract plan parameter.', (done) => {
     const result = flattener(mockData).extract(extractPlan).returnResult()
-    console.log(result)
     expect(result).toEqual({
       userName: 'max',
       userAge: 25,
-      isRecentSignUser: true,
-      isUserAdult: true,
       userProfile: {
         userFavoriteAnimal: { id: 3, animalName: 'vulture' },
         userProfileImage: {
@@ -71,11 +68,6 @@ describe('FlattenTarget.augment() method should', () => {
         ],
       },
     })
-    done()
-  })
-
-  it('occur an error if plan object include function.', (done) => {
-    expect(() => { flattener(mockData).augment(functionIncludeAugmentPlan).returnResult() }).toThrowError(/should not include function/)
     done()
   })
 })

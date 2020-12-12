@@ -5,15 +5,47 @@
   "repository": "https://github.com/MaxKim-J/functional-flattener.git",
   "author": "Max Jonghyuk Kim",
   "license": "MIT",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest",
+    "test": "jest --verbose",
     "deploy": "npm build && npm publish"
   },
+  "jest": {
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "\\.spec\\.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "globals": {
+      "ts-jest": {
+        "diagnostics": true
+      }
+    }
+  },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.9.0",
+    "@typescript-eslint/parser": "^4.9.0",
+    "eslint": "^7.14.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-base": "^14.2.1",
     "jest": "^26.6.3",
+    "ts-jest": "^26.4.4",
     "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "@types/jest": "^26.0.16",
+    "@types/lodash.camelcase": "^4.3.6",
+    "@types/lodash.clonedeep": "^4.5.6",
+    "@types/lodash.snakecase": "^4.1.6",
+    "eslint-plugin-import": "^2.22.1",
+    "lodash.camelcase": "^4.3.0",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.snakecase": "^4.1.1"
   }
 }

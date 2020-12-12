@@ -1,7 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { Target } from './types'
-
-const helper = () => 'helper'
+import { Target, ChangePlan, ExtractPlan } from './types'
 
 export const caseTargetWithCasingFunction = (
   result:Target,
@@ -21,6 +19,22 @@ export const caseTargetWithCasingFunction = (
     }
   })
   return result
+}
+
+export const applyKeyChangePlanToTarget = (target:Target, plan:ChangePlan):Target => {
+  const planKeys = Object.keys(plan)
+  planKeys.forEach((key) => {
+    const [currentKey, newObjectKey] = key.split(':')
+    const newKey = newObjectKey || plan[key] as string
+    if (newObjectKey) {
+      target[newKey] = applyKeyChangePlanToTarget(target[currentKey], plan[key] as ChangePlan)
+      delete target[currentKey]
+    } else {
+      target[newKey] = target[key]
+      delete target[key]
+    }
+  })
+  return target
 }
 
 export const applyProcessPlanToTarget = (result:Target, target:Target, plan:Target):Target => {
@@ -52,7 +66,7 @@ export const applyAugmentPlanToTarget = (target:Target, plan:Target):Target => {
   return target
 }
 
-export const applyExtractPlanToTarget = (target:Target, extractPlan:string[]) => {
+export const applyExtractPlanToTarget = (target:Target, extractPlan:ExtractPlan) => {
   extractPlan.forEach((extractKey) => {
     const referenceArr = extractKey.split('.')
     const lastReference = referenceArr.pop()
@@ -67,5 +81,3 @@ export const applyExtractPlanToTarget = (target:Target, extractPlan:string[]) =>
   })
   return target
 }
-
-export default helper

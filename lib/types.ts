@@ -6,3 +6,7 @@ export interface Target {
 }
 
 export type Plan = (target:Target) => Target
+export type ExtractPlan = string[]
+export interface ChangePlan {
+  [key: string]: string | ChangePlan
+}

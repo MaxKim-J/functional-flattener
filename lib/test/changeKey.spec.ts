@@ -26,15 +26,15 @@ const changePlan = {
 }
 
 describe('FlattenTarget.changeKey() method should', () => {
-  it('return a modified object which all keys of ', (done) => {
+  it('return a modified object which particular keys are  ', (done) => {
     const result = flattener(mockData).changeKey(changePlan).returnResult()
     expect(result).toEqual({
       userId: 12424,
       userName: 'max',
-      userAge: 25,
+      userCurrentAge: 25,
       userCurrentProfile: {
         userIntroduce: 'I Love Zebra',
-        userFavoriteAnimal: { id: 3, animalName: 'vulture' },
+        userAnimal: { id: 3, name: 'vulture' },
         userFriends: [
           { id: 12324, name: 'julie', favoriteAnimal: { id: 0, animalName: 'tiger' } },
           { id: 11424, name: 'michael', favoriteAnimal: { id: 1, animalName: 'lion' } },

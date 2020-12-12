@@ -7,8 +7,15 @@ import {
   applyProcessPlanToTarget,
   applyAugmentPlanToTarget,
   applyExtractPlanToTarget,
+  applyKeyChangePlanToTarget,
 } from './utils'
-import { Target, Plan, CasingOption } from './types'
+import {
+  Target,
+  Plan,
+  ChangePlan,
+  CasingOption,
+  ExtractPlan,
+} from './types'
 
 class FlattenTarget {
   constructor(private target:Target) {}
@@ -32,6 +39,12 @@ class FlattenTarget {
     return new FlattenTarget(result)
   }
 
+  changeKey(changePlan:ChangePlan):FlattenTarget {
+    const cloneTarget = this.clone()
+    const result = applyKeyChangePlanToTarget(cloneTarget, changePlan)
+    return new FlattenTarget(result)
+  }
+
   process(processPlan:Plan):FlattenTarget {
     const cloneTarget = this.clone()
     const resolvedPlan = processPlan(cloneTarget)
@@ -46,7 +59,7 @@ class FlattenTarget {
     return new FlattenTarget(result)
   }
 
-  extract(extractPlan:string[]):FlattenTarget {
+  extract(extractPlan:ExtractPlan):FlattenTarget {
     const cloneTarget = this.clone()
     const result = applyExtractPlanToTarget(cloneTarget, extractPlan)
     return new FlattenTarget(result)

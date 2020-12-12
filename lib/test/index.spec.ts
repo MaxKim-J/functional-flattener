@@ -87,4 +87,33 @@ describe('Functional Flattener lib should', () => {
     })
     done()
   })
+  it('return a modified object according to methods and plan. (In case of Data Adapting)', (done) => {
+    const result = flattener(mockData).case({ to: 'camel' })
+      .process(processPlan)
+      .augment(augmentPlan)
+      .extract(extractPlan)
+      .case({ to: 'snake' })
+      .returnResult()
+
+    expect(result).toEqual({
+      user_name: 'max',
+      user_age: 25,
+      is_recent_sign_user: true,
+      is_user_adult: true,
+      user_profile: {
+        user_profile_text: 'Hello! My name is max. I Love Zebra',
+        user_favorite_animal: { id: 3, animal_name: 'vulture' },
+        user_friends_favorite_animals: ['tiger', 'lion', 'monkey'],
+        user_profile_image: {
+          desktop: '/image/12424/desktop',
+        },
+        user_friends: [
+          { id: 12324, name: 'julie the tiger', favorite_animal: { id: 0, animal_name: 'tiger' } },
+          { id: 11424, name: 'michael the lion', favorite_animal: { id: 1, animal_name: 'lion' } },
+          { id: 18924, name: 'shawn the monkey', favorite_animal: { id: 2, animal_name: 'monkey' } },
+        ],
+      },
+    })
+    done()
+  })
 })

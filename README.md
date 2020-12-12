@@ -16,7 +16,7 @@ Modify JS object functionally and precisely
 - Node기반 클라이언트에서 ESLint를 적용중이라면, 카멜케이스가 아닌 다른 케이스의 키를 참조하는 것 만으로도 에러가 발생합니다. 따라서 JSON 객체의 키를 일괄적으로 케이싱할 수 있는 도구가 필요합니다.
 - `functional-flattener`는 객체의 모든 `key`를 일괄적으로 카멜, 스네이크 케이스로 casing하는 메소드를 지원합니다. 
 
-#### Pre-Processing
+#### Data Adapting(flattening)
 
 - HTTP 요청을 통해 JSON 객체를 받았을 때 해당 객체를 클라이언트 앱에서 쓰기 좋도록 수정을 해야하는 상황이 있습니다.
 - TravelFlan FE팀에서는 이렇게 서버로부터 응답받은 객체를 클라이언트의 `use-case`에 맞게 수정하는 순수함수를 `flattener` 라고 명명하고, 관습적으로 사용하고 있습니다.
@@ -275,7 +275,7 @@ Result will be
 ### Full Example
 
 ```tsx
-import { flattener, Target } from './flattener'
+import { flattener, Target } from 'functional-flattener'
 
 const mockData = {
   user_id: 12424,
@@ -332,17 +332,41 @@ const changePlan = {
 }
 
 const result = flattener(mockData).case({ to: 'camel' })
-      .process(processPlan)
-      .augment(augmentPlan)
-      .extract(extractPlan)
-      .returnResult()
+  .process(processPlan)
+  .augment(augmentPlan)
+  .extract(extractPlan)
+  .returnResult()
 ```
 
-## Q&A
+## FYI
 
-### 객체 안의 배열은 어떻게 modify 하나요?
+### 메소드 적용 순서
 
-### process와 augment를 나눠놓은 이유
+딱히 따라야 하는 메소드 적용 순서는 없지만, `flatten()` 함수로 `FlattenTarget` 인스턴스를 만들고 난 직후에 `casing()`메소드를 먼저 적용하는 것을 추천합니다. ESLint를 사용한다면, 추후 적용할 `process()` 혹은 `augment()` 메소드의 인자로 쓰이는 `plan` 객체에 카멜 케이스가 아닌 다른 케이스의 `key`를 사용하는 것 만으로도 에러를 발생시키기 때문입니다.
+
+### process() 메소드를 사용할 때, 배열 안의 객체는 어떻게 modify 하나요?
+
+```ts
+const mockData = {
+  userFriends: [
+    { id: 12324, name: 'julie', favoriteAnimal: { id: 0, animalName: 'tiger' } },
+    { id: 11424, name: 'michael', favoriteAnimal: { id: 1, animalName: 'lion' } },
+    { id: 18924, name: 'shawn', favoriteAnimal: { id: 2, animalName: 'monkey' } },
+  ],
+}
+
+const processPlan = (target:Target) => ({
+  userFriends: (friends:Friend[]) => friends.map(
+    (friend:Friend) => ({ ...friend, name: `${friend.name} the ${friend.favoriteAnimal.animalName}` }),
+  )},
+)
+
+const result = flattener(mockData)
+  .process(processPlan)
+  .returnResult()
+```
+
+배열 안의 객체를 수정하고 싶을 때는 배열을 수정하는 콜백 함수를 넘기되 수정한 새 배열을 반환하는 `map`이나 `filter`와 같은 메소드를 사용하는 것을 권장합니다.
 
 ## ToDo
 
@@ -353,3 +377,5 @@ const result = flattener(mockData).case({ to: 'camel' })
 
 ## Contribution
 
+- Anyone can open a `pull request` or `issues`. Just ensure passing every existing tests suites in `./lib/test dir`.
+- MIT License

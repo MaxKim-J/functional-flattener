@@ -61,7 +61,7 @@ describe('FlattenTarget.changeKey() method should', () => {
       flattener(mockData)
         .changeKey(wrongChangePlan)
         .returnResult()
-    }).toThrowError(/There is no such a key/)
+    }).toThrowError(/userZooName/)
     done()
   })
 })

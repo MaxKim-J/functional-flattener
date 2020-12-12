@@ -378,4 +378,5 @@ const result = flattener(mockData)
 ## Contribution
 
 - Anyone can open a `pull request` or `issues`. Just ensure passing every existing tests suites in `./lib/test dir`.
+- There is `github action` to verify that all test suites are passed when `pull reqeust` is opened.
 - MIT License

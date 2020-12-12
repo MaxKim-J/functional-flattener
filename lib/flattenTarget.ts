@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash.clonedeep'
 import camelCase from 'lodash.camelcase'
-import snakeCase from 'lodash/snakecase'
+import snakeCase from 'lodash.snakecase'
 
 import {
   caseTargetWithCasingFunction,

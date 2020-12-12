@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { Target, ChangePlan, ExtractPlan } from './types'
+import { Target, ChangeKeyPlan, ExtractPlan } from './types'
 
 export const caseTargetWithCasingFunction = (
   result:Target,
@@ -21,14 +21,14 @@ export const caseTargetWithCasingFunction = (
   return result
 }
 
-export const applyKeyChangePlanToTarget = (target:Target, plan:ChangePlan):Target => {
+export const applyKeyChangePlanToTarget = (target:Target, plan:ChangeKeyPlan):Target => {
   const planKeys = Object.keys(plan)
   planKeys.forEach((key) => {
     const [currentKey, newObjectKey] = key.split(':')
     const newKey = newObjectKey || plan[key] as string
     if (!target[currentKey]) { throw Error(`There is no such a key name ${currentKey} in target object`) }
     if (newObjectKey) {
-      target[newKey] = applyKeyChangePlanToTarget(target[currentKey], plan[key] as ChangePlan)
+      target[newKey] = applyKeyChangePlanToTarget(target[currentKey], plan[key] as ChangeKeyPlan)
       delete target[currentKey]
     } else {
       target[newKey] = target[key]

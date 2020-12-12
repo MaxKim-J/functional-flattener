@@ -5,8 +5,9 @@ export interface Target {
   [key: string]:any
 }
 
-export type Plan = (target:Target) => Target
+export type ProcessPlan = (target:Target) => Target
+export type AugmentPlan = (target:Target) => Target
 export type ExtractPlan = string[]
-export interface ChangePlan {
-  [key: string]: string | ChangePlan
+export interface ChangeKeyPlan {
+  [key: string]: string | ChangeKeyPlan
 }

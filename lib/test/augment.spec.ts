@@ -1,5 +1,4 @@
-import flattener from '../../lib'
-import { Target } from '../types'
+import flattener, { Target } from '../../lib'
 
 interface Animal {
   id:number,

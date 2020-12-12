@@ -11,8 +11,9 @@ import {
 } from './utils'
 import {
   Target,
-  Plan,
-  ChangePlan,
+  ProcessPlan,
+  AugmentPlan,
+  ChangeKeyPlan,
   CasingOption,
   ExtractPlan,
 } from './types'
@@ -39,20 +40,20 @@ class FlattenTarget {
     return new FlattenTarget(result)
   }
 
-  changeKey(changePlan:ChangePlan):FlattenTarget {
+  changeKey(changePlan:ChangeKeyPlan):FlattenTarget {
     const cloneTarget = this.clone()
     const result = applyKeyChangePlanToTarget(cloneTarget, changePlan)
     return new FlattenTarget(result)
   }
 
-  process(processPlan:Plan):FlattenTarget {
+  process(processPlan:ProcessPlan):FlattenTarget {
     const cloneTarget = this.clone()
     const resolvedPlan = processPlan(cloneTarget)
     const result = applyProcessPlanToTarget({}, cloneTarget, resolvedPlan)
     return new FlattenTarget(result)
   }
 
-  augment(augmentPlan:Plan):FlattenTarget {
+  augment(augmentPlan:AugmentPlan):FlattenTarget {
     const cloneTarget = this.clone()
     const resolvedPlan = augmentPlan(cloneTarget)
     const result = applyAugmentPlanToTarget(cloneTarget, resolvedPlan)

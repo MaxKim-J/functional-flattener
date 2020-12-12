@@ -25,8 +25,19 @@ const changePlan = {
   },
 }
 
+const wrongChangePlan = {
+  userAge: 'userCurrentAge',
+  'userProfile:userCurrentProfile': {
+    userProfileText: 'userIntroduce',
+    userZooName: 'userZooTitle',
+    'userFavoriteAnimal:userAnimal': {
+      animalName: 'name',
+    },
+  },
+}
+
 describe('FlattenTarget.changeKey() method should', () => {
-  it('return a modified object which particular keys are  ', (done) => {
+  it('return a modified object which particular keys are changed according to change plan', (done) => {
     const result = flattener(mockData).changeKey(changePlan).returnResult()
     expect(result).toEqual({
       userId: 12424,
@@ -42,6 +53,15 @@ describe('FlattenTarget.changeKey() method should', () => {
         ],
       },
     })
+    done()
+  })
+
+  it('occur an error when plan contain a key which is not included in target object', (done) => {
+    expect(() => {
+      flattener(mockData)
+        .changeKey(wrongChangePlan)
+        .returnResult()
+    }).toThrowError(/There is no such a key/)
     done()
   })
 })

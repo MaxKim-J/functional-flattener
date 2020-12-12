@@ -26,6 +26,7 @@ export const applyKeyChangePlanToTarget = (target:Target, plan:ChangePlan):Targe
   planKeys.forEach((key) => {
     const [currentKey, newObjectKey] = key.split(':')
     const newKey = newObjectKey || plan[key] as string
+    if (!target[currentKey]) { throw Error(`There is no such a key name ${currentKey} in target object`) }
     if (newObjectKey) {
       target[newKey] = applyKeyChangePlanToTarget(target[currentKey], plan[key] as ChangePlan)
       delete target[currentKey]

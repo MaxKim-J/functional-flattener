@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-import camelCase from 'lodash.camelcase'
 import { Target } from './types'
 
 const helper = () => 'helper'

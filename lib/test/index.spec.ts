@@ -58,6 +58,16 @@ const extractPlan = [
   'userProfile.userProfileImage.mobile',
 ]
 
+const changePlan = {
+  userAge: 'userCurrentAge',
+  'userProfile:userCurrentProfile': {
+    userProfileText: 'userIntroduce',
+    'userFavoriteAnimal:userAnimal': {
+      animalName: 'name',
+    },
+  },
+}
+
 describe('Functional Flattener lib should', () => {
   it('return a modified object according to methods and plan', (done) => {
     const result = flattener(mockData).case({ to: 'camel' })
@@ -87,22 +97,23 @@ describe('Functional Flattener lib should', () => {
     })
     done()
   })
+
   it('return a modified object according to methods and plan. (In case of Data Adapting)', (done) => {
     const result = flattener(mockData).case({ to: 'camel' })
       .process(processPlan)
       .augment(augmentPlan)
       .extract(extractPlan)
+      .changeKey(changePlan)
       .case({ to: 'snake' })
       .returnResult()
-
     expect(result).toEqual({
       user_name: 'max',
-      user_age: 25,
+      user_current_age: 25,
       is_recent_sign_user: true,
       is_user_adult: true,
-      user_profile: {
-        user_profile_text: 'Hello! My name is max. I Love Zebra',
-        user_favorite_animal: { id: 3, animal_name: 'vulture' },
+      user_current_profile: {
+        user_introduce: 'Hello! My name is max. I Love Zebra',
+        user_animal: { id: 3, name: 'vulture' },
         user_friends_favorite_animals: ['tiger', 'lion', 'monkey'],
         user_profile_image: {
           desktop: '/image/12424/desktop',

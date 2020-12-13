@@ -1,17 +1,16 @@
 {
   "name": "functional-flattener",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "flattening functionally",
   "repository": "https://github.com/MaxKim-J/functional-flattener.git",
   "author": "Max Jonghyuk Kim",
   "license": "MIT",
-  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest --verbose",
-    "deploy": "npm build && npm publish"
+    "deploy": "npm run build && npm publish"
   },
   "jest": {
     "transform": {

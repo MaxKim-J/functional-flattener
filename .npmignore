@@ -1,3 +1,5 @@
-lib/
-node_modules/
+lib
 test
+tsconfig.json
+License
+.github

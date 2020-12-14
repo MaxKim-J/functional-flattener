@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { Target, ChangeKeyPlan, ExtractPlan } from './types'
+import { Target, ChangeKeyPlan, RemovePlan } from './types'
 
 export const caseTargetWithCasingFunction = (
   result:Target,
@@ -67,18 +67,18 @@ export const applyAugmentPlanToTarget = (target:Target, plan:Target):Target => {
   return target
 }
 
-export const applyExtractPlanToTarget = (target:Target, extractPlan:ExtractPlan) => {
-  extractPlan.forEach((extractKey) => {
-    const referenceArr = extractKey.split('.')
+export const applyRemovePlanToTarget = (target:Target, removePlan:RemovePlan) => {
+  removePlan.forEach((removeKey) => {
+    const referenceArr = removeKey.split('.')
     const lastReference = referenceArr.pop()
-    let extractTargetProperty:Target = target
+    let removeTargetProperty:Target = target
     referenceArr.forEach((key) => {
-      extractTargetProperty = extractTargetProperty[key]
+      removeTargetProperty = removeTargetProperty[key]
     })
-    if (!extractTargetProperty[`${lastReference}`]) {
-      throw Error(`${extractKey} does not exist in target`)
+    if (!removeTargetProperty[`${lastReference}`]) {
+      throw Error(`${removeKey} does not exist in target`)
     }
-    delete extractTargetProperty[`${lastReference}`]
+    delete removeTargetProperty[`${lastReference}`]
   })
   return target
 }

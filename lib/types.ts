@@ -7,7 +7,7 @@ export interface Target {
 
 export type ProcessPlan = (target:Target) => Target
 export type AugmentPlan = (target:Target) => Target
-export type ExtractPlan = string[]
+export type RemovePlan = string[]
 export interface ChangeKeyPlan {
   [key: string]: string | ChangeKeyPlan
 }

@@ -3,7 +3,7 @@ import {
   Target,
   AugmentPlan,
   ProcessPlan,
-  ExtractPlan,
+  RemovePlan,
   ChangeKeyPlan,
   CasingOption,
 } from './types'
@@ -13,7 +13,7 @@ export {
   Target,
   AugmentPlan,
   ProcessPlan,
-  ExtractPlan,
+  RemovePlan,
   ChangeKeyPlan,
   CasingOption,
 }

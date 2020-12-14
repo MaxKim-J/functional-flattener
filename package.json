@@ -9,7 +9,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest --verbose",
+    "test": "jest --verbose --coverage",
     "deploy": "npm run build && npm publish"
   },
   "jest": {

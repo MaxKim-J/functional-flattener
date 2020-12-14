@@ -52,7 +52,7 @@ const augmentPlan = (target:Target) => ({
   },
 })
 
-const extractPlan = [
+const removePlan = [
   'userId',
   'userProfile.userProfileImage.mobile',
 ]
@@ -72,7 +72,7 @@ describe('Functional Flattener lib should', () => {
     const result = flattener(mockData).case({ to: 'camel' })
       .process(processPlan)
       .augment(augmentPlan)
-      .extract(extractPlan)
+      .remove(removePlan)
       .returnResult()
 
     expect(result).toEqual({
@@ -101,7 +101,7 @@ describe('Functional Flattener lib should', () => {
     const result = flattener(mockData).case({ to: 'camel' })
       .process(processPlan)
       .augment(augmentPlan)
-      .extract(extractPlan)
+      .remove(removePlan)
       .changeKey(changePlan)
       .case({ to: 'snake' })
       .returnResult()

@@ -20,21 +20,21 @@ const mockData = {
   },
 }
 
-const extractPlan = [
+const removePlan = [
   'userId',
   'userProfile.userProfileText',
   'userProfile.userProfileImage.mobile',
 ]
 
-const wrongExtractPlan = [
+const wrongRemovePlan = [
   'userId',
   'userProfile.userProf',
   'userProfile.userProfileImage.mobile',
 ]
 
-describe('FlattenTarget.extract() method should', () => {
-  it('return a modified object that extract particular properties according to extract plan parameter.', (done) => {
-    const result = flattener(mockData).extract(extractPlan).returnResult()
+describe('FlattenTarget.remove() method should', () => {
+  it('return a modified object that remove particular properties according to remove plan parameter.', (done) => {
+    const result = flattener(mockData).remove(removePlan).returnResult()
     expect(result).toEqual({
       userName: 'max',
       userAge: 25,
@@ -68,7 +68,7 @@ describe('FlattenTarget.extract() method should', () => {
   it('occur an error if key in plan not exist in target.', (done) => {
     expect(() => {
       flattener(mockData)
-        .extract(wrongExtractPlan)
+        .remove(wrongRemovePlan)
         .returnResult()
     }).toThrowError(/does not exist/)
     done()

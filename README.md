@@ -243,7 +243,7 @@ Result will be
 - `augmentPlan` 객체의 값은 함수를 가질 수 없습니다. target 객체에 새롭게 추가되는 프로퍼티는 특정 값이거나, target object만을 참조하여 만들어져야 합니다.
 - `augmentPlan` 객체에는 기존 `target object`에는 없는 새로운 key 값만 포함하는 것을 권장합니다. `augment()` 메소드가 **증강**에 초점을 맞추고 있어서 그렇습니다. plan 객체에 기존 key값을 사용해 새로운 값을 넘겨주는 방식으로 객체를 수정할 수는 있지만, 이는 이미 '가공'에 좀 더 초점이 맞춰져 있는 `process()` 메서드에서도 가능한 동작입니다.
 
-### 7. extract()
+### 7. remove()
 
 ```ts
 const result = flattener({
@@ -258,7 +258,7 @@ const result = flattener({
       desktop: '/image/12424/desktop',
     }
   }
-}).extract([
+}).remove([
   'userId',
   'userProfile.userProfileText',
   'userProfile.userProfileImage.mobile',
@@ -281,7 +281,7 @@ Result will be
 ```
 
 - target 객체의 프로퍼티를 삭제하여 객체를 축소시키는 메소드입니다.
-- `extractPlan`은 문자열로 이루어진 배열이며, 도트 연산자(`.`)를 통해 제거할 객체의 프로퍼티를 표현합니다.
+- `removePlan`은 문자열로 이루어진 배열이며, 도트 연산자(`.`)를 통해 제거할 객체의 프로퍼티를 표현합니다.
 
 ### 8. returnResult()
 
@@ -333,7 +333,7 @@ const augmentPlan = (target:Target) => ({
   },
 })
 
-const extractPlan = [
+const removePlan = [
   'userId',
   'userProfile.userProfileImage.mobile',
 ]
@@ -351,7 +351,7 @@ const changePlan = {
 const result = flattener(mockData).case({ to: 'camel' })
   .process(processPlan)
   .augment(augmentPlan)
-  .extract(extractPlan)
+  .remove(removePlan)
   .returnResult()
 ```
 
@@ -387,7 +387,7 @@ const result = flattener(mockData)
 
 ## ToDo
 
-1. Add `FlattenTarget.prototype.modify()` : This method can modify target object according to modify plan. `Modify()` will be a superset method of process, changeKey, augment and extract method. It will be going to operate those method`s modification all at once.
+1. Add `FlattenTarget.prototype.modify()` : This method can modify target object according to modify plan. `Modify()` will be a superset method of process, changeKey, augment and remove method. It will be going to operate those method`s modification all at once.
 2. Add `README.md` written in English
 3. Add More Detail error handling
 4. Add More test cases

@@ -6,7 +6,7 @@ import {
   caseTargetWithCasingFunction,
   applyProcessPlanToTarget,
   applyAugmentPlanToTarget,
-  applyExtractPlanToTarget,
+  applyRemovePlanToTarget,
   applyKeyChangePlanToTarget,
 } from './utils'
 import {
@@ -15,7 +15,7 @@ import {
   AugmentPlan,
   ChangeKeyPlan,
   CasingOption,
-  ExtractPlan,
+  RemovePlan,
 } from './types'
 
 class FlattenTarget {
@@ -60,9 +60,9 @@ class FlattenTarget {
     return new FlattenTarget(result)
   }
 
-  extract(extractPlan:ExtractPlan):FlattenTarget {
+  remove(removePlan:RemovePlan):FlattenTarget {
     const cloneTarget = this.clone()
-    const result = applyExtractPlanToTarget(cloneTarget, extractPlan)
+    const result = applyRemovePlanToTarget(cloneTarget, removePlan)
     return new FlattenTarget(result)
   }
 

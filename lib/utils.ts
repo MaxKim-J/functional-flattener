@@ -11,7 +11,7 @@ export const caseTargetWithCasingFunction = (
     const keyParseToNumber = parseInt(key, 10)
     const newKey = Number.isNaN(keyParseToNumber) ? casingFunction(key) : key
     const value = target[key]
-    if (typeof value === 'object') {
+    if (typeof value === 'object' && value !== null) {
       const childPropertyResult = Array.isArray(value) ? [] : {}
       result[newKey] = caseTargetWithCasingFunction(childPropertyResult, value, casingFunction)
     } else {
@@ -21,20 +21,22 @@ export const caseTargetWithCasingFunction = (
   return result
 }
 
-// TODO: 그래도 plan value 문자열 아닌경우 exception
 export const applyKeyChangePlanToTarget = (target:Target, plan:ChangeKeyPlan):Target => {
   const planKeys = Object.keys(plan)
   planKeys.forEach((key) => {
+    let newKey
     const [currentKey, newObjectKey] = key.split(':')
-    const newKey = newObjectKey || plan[key] as string
-    // TODO: null, undefined exception
-    if (!target[currentKey]) { throw Error(`There is no such a key name ${currentKey} in target object`) }
-    if (newObjectKey) {
-      target[newKey] = applyKeyChangePlanToTarget(target[currentKey], plan[key] as ChangeKeyPlan)
-      delete target[currentKey]
-    } else {
+    if (target[currentKey] === undefined) {
+      throw Error(`There is no such a key name ${currentKey} in target object`)
+    }
+    if (typeof plan[key] === 'string') {
+      newKey = plan[key] as string
       target[newKey] = target[key]
       delete target[key]
+    } else {
+      newKey = newObjectKey || currentKey
+      target[newKey] = applyKeyChangePlanToTarget(target[currentKey], plan[key] as ChangeKeyPlan)
+      if (key !== currentKey) { delete target[currentKey] }
     }
   })
   return target

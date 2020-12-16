@@ -38,7 +38,7 @@ const nullMockData = {
   user_level: 0,
   user_age: null,
   user_profile: {
-    user_profile_text: undefined,
+    user_profile_text: null,
     user_favorite_animal: null,
     user_profile_image: {
       mobile: null,
@@ -144,7 +144,7 @@ describe('Functional Flattener lib should', () => {
   })
 })
 
-describe('Null/undefined exception handle test', () => {
+describe('Null exception handle tests', () => {
   it('case() method should be operate expectedly when target object key value is null or undefined', (done) => {
     const result = flattener(nullMockData).case({ to: 'camel' }).returnResult()
     expect(result).toEqual({
@@ -153,7 +153,7 @@ describe('Null/undefined exception handle test', () => {
       userLevel: 0,
       userAge: null,
       userProfile: {
-        userProfileText: undefined,
+        userProfileText: null,
         userFavoriteAnimal: null,
         userProfileImage: {
           mobile: null,
@@ -184,32 +184,35 @@ describe('Null/undefined exception handle test', () => {
       userName: 'Max',
       userRank: 0,
       userCurrentAge: null,
-      userProfile: {
-        userIntroduce: undefined,
+      userInfo: {
+        userIntroduce: null,
         userAnimal: null,
         userProfileImage: {
           mobileImage: null,
           desktopImage: null,
         },
       },
-      userFriends: [],
+      friendsOfUser: [],
     })
     done()
   })
 
   it('process() method should be operate expectedly when target object key value is null or undefined', (done) => {
-    const result = flattener(nullMockData).case({ to: 'camel' }).process((target) => ({
-      userId: target.userId - 10000,
-      userAge: target.userAge + 100,
-      userFriend: (friends:Friend[]) => friends.map((friend) => ({ ...friend, introduce: `Hi! My name is ${friend.name}.` })),
-    })).returnResult()
+    const result = flattener(nullMockData).case({ to: 'camel' }).process((target) => {
+      const notNullUserAge = target.userAge || 0
+      return {
+        userId: target.userId - 10000,
+        userAge: notNullUserAge + 100,
+        userFriend: (friends:Friend[]) => friends.map((friend) => ({ ...friend, introduce: `Hi! My name is ${friend.name}.` })),
+      }
+    }).returnResult()
     expect(result).toEqual({
-      userId: 34654,
+      userId: 24654,
       userName: 'Max',
       userLevel: 0,
-      userAge: null,
+      userAge: 100,
       userProfile: {
-        userProfileText: undefined,
+        userProfileText: null,
         userFavoriteAnimal: null,
         userProfileImage: {
           mobile: null,
@@ -223,11 +226,12 @@ describe('Null/undefined exception handle test', () => {
 
   it('augment() method should be operate expectedly when target object key value is null or undefined', (done) => {
     const result = flattener(nullMockData).case({ to: 'camel' }).augment((target) => {
+      //* assure no null in plan parameter return object
       const { userProfileText } = target.userProfile
-      // process null
+      const notNullUserAge = target.userAge || 25
       return {
         isRecentlySignUpUser: target.userId > 20000,
-        isUserUnderAge: target.userAge < 19,
+        isUserUnderAge: notNullUserAge < 19,
         userProfile: {
           userIntroduce: userProfileText ? `Hi. ${userProfileText}` : '',
         },
@@ -242,7 +246,7 @@ describe('Null/undefined exception handle test', () => {
       userAge: null,
       userProfile: {
         userIntroduce: '',
-        userProfileText: undefined,
+        userProfileText: null,
         userFavoriteAnimal: null,
         userProfileImage: {
           mobile: null,

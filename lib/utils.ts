@@ -21,11 +21,13 @@ export const caseTargetWithCasingFunction = (
   return result
 }
 
+// TODO: 그래도 plan value 문자열 아닌경우 exception
 export const applyKeyChangePlanToTarget = (target:Target, plan:ChangeKeyPlan):Target => {
   const planKeys = Object.keys(plan)
   planKeys.forEach((key) => {
     const [currentKey, newObjectKey] = key.split(':')
     const newKey = newObjectKey || plan[key] as string
+    // TODO: null, undefined exception
     if (!target[currentKey]) { throw Error(`There is no such a key name ${currentKey} in target object`) }
     if (newObjectKey) {
       target[newKey] = applyKeyChangePlanToTarget(target[currentKey], plan[key] as ChangeKeyPlan)

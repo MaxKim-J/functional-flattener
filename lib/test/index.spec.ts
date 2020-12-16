@@ -32,6 +32,22 @@ const mockData = {
   },
 }
 
+const nullMockData = {
+  user_id: 34654,
+  user_name: 'Max',
+  user_level: 0,
+  user_age: null,
+  user_profile: {
+    user_profile_text: undefined,
+    user_favorite_animal: null,
+    user_profile_image: {
+      mobile: null,
+      desktop: null,
+    },
+  },
+  user_friends: [],
+}
+
 const processPlan = (target:Target) => ({
   userId: (id:number) => id + 10000,
   userProfile: {
@@ -123,6 +139,117 @@ describe('Functional Flattener lib should', () => {
           { id: 18924, name: 'shawn the monkey', favorite_animal: { id: 2, animal_name: 'monkey' } },
         ],
       },
+    })
+    done()
+  })
+})
+
+describe('Null/undefined exception handle test', () => {
+  it('case() method should be operate expectedly when target object key value is null or undefined', (done) => {
+    const result = flattener(nullMockData).case({ to: 'camel' }).returnResult()
+    expect(result).toEqual({
+      userId: 34654,
+      userName: 'Max',
+      userLevel: 0,
+      userAge: null,
+      userProfile: {
+        userProfileText: undefined,
+        userFavoriteAnimal: null,
+        userProfileImage: {
+          mobile: null,
+          desktop: null,
+        },
+      },
+      userFriends: [],
+    })
+    done()
+  })
+
+  it('changeKey() method should be operate expectedly when target object key value is null or undefined', (done) => {
+    const result = flattener(nullMockData).case({ to: 'camel' }).changeKey({
+      userLevel: 'userRank',
+      userAge: 'userCurrentAge',
+      'userProfile:userInfo': {
+        userProfileText: 'userIntroduce',
+        userFavoriteAnimal: 'userAnimal',
+        userProfileImage: {
+          mobile: 'mobileImage',
+          desktop: 'desktopImage',
+        },
+      },
+      userFriends: 'friendsOfUser',
+    }).returnResult()
+    expect(result).toEqual({
+      userId: 34654,
+      userName: 'Max',
+      userRank: 0,
+      userCurrentAge: null,
+      userProfile: {
+        userIntroduce: undefined,
+        userAnimal: null,
+        userProfileImage: {
+          mobileImage: null,
+          desktopImage: null,
+        },
+      },
+      userFriends: [],
+    })
+    done()
+  })
+
+  it('process() method should be operate expectedly when target object key value is null or undefined', (done) => {
+    const result = flattener(nullMockData).case({ to: 'camel' }).process((target) => ({
+      userId: target.userId - 10000,
+      userAge: target.userAge + 100,
+      userFriend: (friends:Friend[]) => friends.map((friend) => ({ ...friend, introduce: `Hi! My name is ${friend.name}.` })),
+    })).returnResult()
+    expect(result).toEqual({
+      userId: 34654,
+      userName: 'Max',
+      userLevel: 0,
+      userAge: null,
+      userProfile: {
+        userProfileText: undefined,
+        userFavoriteAnimal: null,
+        userProfileImage: {
+          mobile: null,
+          desktop: null,
+        },
+      },
+      userFriends: [],
+    })
+    done()
+  })
+
+  it('augment() method should be operate expectedly when target object key value is null or undefined', (done) => {
+    const result = flattener(nullMockData).case({ to: 'camel' }).augment((target) => {
+      const { userProfileText } = target.userProfile
+      // process null
+      return {
+        isRecentlySignUpUser: target.userId > 20000,
+        isUserUnderAge: target.userAge < 19,
+        userProfile: {
+          userIntroduce: userProfileText ? `Hi. ${userProfileText}` : '',
+        },
+      }
+    }).returnResult()
+    expect(result).toEqual({
+      userId: 34654,
+      isRecentlySignUpUser: true,
+      isUserUnderAge: false,
+      userName: 'Max',
+      userLevel: 0,
+      userAge: null,
+      userProfile: {
+        userIntroduce: '',
+        userProfileText: undefined,
+        userFavoriteAnimal: null,
+        userProfileImage: {
+          mobile: null,
+          desktop: null,
+        },
+      },
+      userFriends: [],
     })
     done()
   })

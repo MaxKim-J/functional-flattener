@@ -8,7 +8,7 @@ import {
   applyAugmentPlanToTarget,
   applyRemovePlanToTarget,
   applyKeyChangePlanToTarget,
-} from './utils'
+} from './core'
 import {
   Target,
   ProcessPlan,

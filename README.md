@@ -3,7 +3,6 @@
 ![npm](https://img.shields.io/npm/v/functional-flattener) ![npm](https://img.shields.io/npm/dw/functional-flattener?color=red) ![GitHub Release Date](https://img.shields.io/github/release-date/MaxKim-J/functional-flattener?color=orange) [![GitHub license](https://img.shields.io/github/license/MaxKim-J/functional-flattener)](https://github.com/MaxKim-J/functional-flattener/blob/master/License) 
 
 Modify JS object functionally and precisely  
-> **English version** of this documentation soon will add in this repository. 🙂
 
 ## Install
 

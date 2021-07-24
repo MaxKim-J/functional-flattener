@@ -1,5 +1,6 @@
 lib
 test
 tsconfig.json
-License
 .github
+.eslintrc
+node_modules/*

@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Target, ChangeKeyPlan, RemovePlan } from './types'
-import { isObjectButNotArray, isObjectButNotNull } from './utils'
+import { isObjectButNotArray, isObjectButNotNull, cloneDeep } from './utils'
 
 export const caseTargetWithCasingFunction = (
   result:Target,
@@ -24,6 +24,7 @@ export const caseTargetWithCasingFunction = (
 
 export const applyKeyChangePlanToTarget = (target:Target, plan:ChangeKeyPlan):Target => {
   const planKeys = Object.keys(plan)
+  target = cloneDeep(target)
   planKeys.forEach((key) => {
     let newKey
     const [currentKey, newObjectKey] = key.split(':')
@@ -59,6 +60,7 @@ export const applyProcessPlanToTarget = (result:Target, target:Target, plan:Targ
 
 export const applyAugmentPlanToTarget = (target:Target, plan:Target):Target => {
   const planKeys = Object.keys(plan)
+  target = cloneDeep(target)
   planKeys.forEach((key) => {
     if (typeof plan[key] === 'function') {
       throw Error('Augment plan object should not include function')
@@ -73,6 +75,7 @@ export const applyAugmentPlanToTarget = (target:Target, plan:Target):Target => {
 }
 
 export const applyRemovePlanToTarget = (target:Target, removePlan:RemovePlan) => {
+  target = cloneDeep(target)
   removePlan.forEach((removeKey) => {
     const referenceArr = removeKey.split('.')
     const lastReference = referenceArr.pop()
